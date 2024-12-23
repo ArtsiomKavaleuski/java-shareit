@@ -1,6 +1,7 @@
 package ru.practicum.shareit.user;
 
 import org.springframework.stereotype.Repository;
+import ru.practicum.shareit.exception.ConflictException;
 
 import java.util.*;
 
@@ -20,20 +21,14 @@ public class UserRepositoryImpl implements UserRepository {
     }
 
     @Override
-    public User addUser(User user) throws Exception {
-        if(users.values().stream().map(User::getEmail).toList().contains(user.getEmail())) {
-            throw new Exception("E-mail уже используется");
-        }
+    public User addUser(User user) {
         user.setId(generateId());
         users.put(user.getId(), user);
         return users.get(user.getId());
     }
 
     @Override
-    public User updateUser(long id, User user) throws Exception {
-        if(users.values().stream().filter(u -> u.getId() != id).map(User::getEmail).toList().contains(user.getEmail())) {
-            throw new Exception("E-mail уже используется");
-        }
+    public User updateUser(long id, User user) {
         User updatedUser = users.get(id);
         updatedUser.setName(user.getName());
         updatedUser.setEmail(user.getEmail());

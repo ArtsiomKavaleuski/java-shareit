@@ -2,6 +2,7 @@ package ru.practicum.shareit.user;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import ru.practicum.shareit.exception.ConflictException;
 
 import java.util.Collection;
 
@@ -21,12 +22,18 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User addUser(User user) throws Exception {
+    public User addUser(User user) throws ConflictException {
+        if(userRepository.getUsers().stream().map(User::getEmail).toList().contains(user.getEmail())) {
+            throw new ConflictException("E-mail уже используется");
+        }
         return userRepository.addUser(user);
     }
 
     @Override
-    public User updateUser(long id, User user) throws Exception{
+    public User updateUser(long id, User user) throws ConflictException {
+        if(userRepository.getUsers().stream().filter(u -> u.getId() != id).map(User::getEmail).toList().contains(user.getEmail())) {
+            throw new ConflictException("E-mail уже используется");
+        }
         return userRepository.updateUser(id, user);
     }
 
