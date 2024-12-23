@@ -1,18 +1,16 @@
-package ru.practicum.shareit.user;
+package ru.practicum.shareit.user.dto;
 
 import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotNull;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import org.hibernate.validator.constraints.UniqueElements;
 
-/**
- * TODO Sprint add-controllers.
- */
 @Data
-public class User {
+@AllArgsConstructor
+public class UserDto {
     private long id;
     private String name;
     @Email
-    @NotNull
+    @UniqueElements
     private String email;
 }
