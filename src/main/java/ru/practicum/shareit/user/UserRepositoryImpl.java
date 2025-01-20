@@ -1,7 +1,6 @@
 package ru.practicum.shareit.user;
 
 import org.springframework.stereotype.Repository;
-import ru.practicum.shareit.exception.ConflictException;
 
 import java.util.*;
 
@@ -41,8 +40,6 @@ public class UserRepositoryImpl implements UserRepository {
     }
 
     private long generateId() {
-        long id = lastId;
-        lastId++;
-        return id;
+        return lastId++;
     }
 }

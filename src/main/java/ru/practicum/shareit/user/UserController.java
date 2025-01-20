@@ -1,15 +1,11 @@
 package ru.practicum.shareit.user;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Collection;
 
-/**
- * TODO Sprint add-controllers.
- */
 @RestController
 @RequiredArgsConstructor
 @RequestMapping(path = "/users")
@@ -17,18 +13,28 @@ public class UserController {
     private final UserService userService;
 
     @GetMapping
-    public Collection<User> getUsers() {return userService.getUsers();}
+    public Collection<User> getUsers() {
+        return userService.getUsers();
+    }
 
     @GetMapping("/{id}")
-    public User getUser(@PathVariable long id) {return userService.getUser(id);}
+    public User getUser(@PathVariable long id) {
+        return userService.getUser(id);
+    }
 
     @PostMapping
-    public User addUser(@Validated @RequestBody User user) throws Exception {return userService.addUser(user);}
+    public User addUser(@Validated @RequestBody User user) throws Exception {
+        return userService.addUser(user);
+    }
 
     @PatchMapping("{id}")
-    public User updateUser(@PathVariable long id, @RequestBody User user) throws Exception {return userService.updateUser(id, user);}
+    public User updateUser(@PathVariable long id, @RequestBody User user) throws Exception {
+        return userService.updateUser(id, user);
+    }
 
     @DeleteMapping("/{id}")
-    public void deleteUser(@PathVariable long id) {userService.deleteUser(id);}
+    public void deleteUser(@PathVariable long id) {
+        userService.deleteUser(id);
+    }
 
 }

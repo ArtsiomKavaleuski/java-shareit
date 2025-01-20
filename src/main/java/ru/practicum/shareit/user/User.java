@@ -3,7 +3,6 @@ package ru.practicum.shareit.user;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
-import org.hibernate.validator.constraints.UniqueElements;
 
 /**
  * TODO Sprint add-controllers.

@@ -12,4 +12,16 @@ public class ErrorHandler {
     public ErrorResponse handleConflict(final ConflictException e) {
         return new ErrorResponse("conflict", e.getMessage());
     }
+
+    @ExceptionHandler
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    public ErrorResponse handleNotFound(final NotFoundException e) {
+        return new ErrorResponse("not found", e.getMessage());
+    }
+
+    @ExceptionHandler
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ErrorResponse handleBadRequest(final BadRequestException e) {
+        return new ErrorResponse("bad request", e.getMessage());
+    }
 }
