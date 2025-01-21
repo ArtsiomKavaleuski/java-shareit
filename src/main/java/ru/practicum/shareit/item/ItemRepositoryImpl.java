@@ -1,6 +1,7 @@
 package ru.practicum.shareit.item;
 
 import org.springframework.stereotype.Repository;
+import ru.practicum.shareit.exception.NotFoundException;
 import ru.practicum.shareit.item.dto.ItemDto;
 import ru.practicum.shareit.item.mapper.ItemMapper;
 import ru.practicum.shareit.item.model.Item;
@@ -21,6 +22,9 @@ public class ItemRepositoryImpl implements ItemRepository {
 
     @Override
     public ItemDto getItemById(long id) {
+        if (!items.containsKey(id)) {
+            throw new NotFoundException("Item does not exist");
+        }
         return ItemMapper.toItemDto(items.get(id));
     }
 
@@ -36,10 +40,14 @@ public class ItemRepositoryImpl implements ItemRepository {
     @Override
     public ItemDto updateItem(long userId, long itemId, ItemDto itemDto) {
         Item item = items.get(itemId);
-        if (!item.getName().equals(itemDto.getName()) && itemDto.getName() != null) {
+        if (!item.getName().equals(itemDto.getName())
+                && itemDto.getName() != null
+                && !itemDto.getName().isBlank()) {
             item.setName(itemDto.getName());
         }
-        if (!item.getDescription().equals(itemDto.getDescription()) && itemDto.getDescription() != null) {
+        if (!item.getDescription().equals(itemDto.getDescription())
+                && itemDto.getDescription() != null
+                && !itemDto.getDescription().isBlank()) {
             item.setDescription(itemDto.getDescription());
         }
         if (!item.getAvailable().equals(itemDto.getAvailable()) && itemDto.getAvailable() != null) {
