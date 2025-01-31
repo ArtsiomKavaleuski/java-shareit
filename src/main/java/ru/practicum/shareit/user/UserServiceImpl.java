@@ -7,7 +7,6 @@ import ru.practicum.shareit.exception.NotFoundException;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Collection;
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -21,11 +20,8 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Optional<User> getUser(long id) {
-        if (userRepository.findById(id).isEmpty()) {
-            throw new NotFoundException("User not found");
-        }
-        return userRepository.findById(id);
+    public User getUser(long id) {
+        return userRepository.findById(id).orElseThrow(() -> new NotFoundException("User not found"));
     }
 
     @Override
@@ -43,7 +39,7 @@ public class UserServiceImpl implements UserService {
         if (userRepository.findAll().stream().filter(u -> u.getId() != id).map(User::getEmail).toList().contains(user.getEmail())) {
             throw new ConflictException("E-mail уже используется");
         }
-        User updatedUser = userRepository.findById(id).orElseThrow(() -> new NotFoundException("User not found"));
+        User updatedUser = getUser(id);
         if(user.getName() != null) updatedUser.setName(user.getName());
         if(user.getEmail() != null) updatedUser.setEmail(user.getEmail());
         return userRepository.save(updatedUser);
