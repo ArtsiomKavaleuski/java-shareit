@@ -13,7 +13,9 @@ CREATE TABLE IF NOT EXISTS items(
     available BOOLEAN,
     owner_id BIGINT,
     request_id BIGINT,
-    CONSTRAINT pk_item PRIMARY KEY (id)
+    CONSTRAINT pk_item PRIMARY KEY (id),
+    FOREIGN KEY (owner_id) REFERENCES users(id),
+    FOREIGN KEY (reuest_id) REFERENCES requests(id)
 );
 
 CREATE TABLE IF NOT EXISTS bookings (
@@ -23,7 +25,9 @@ CREATE TABLE IF NOT EXISTS bookings (
     item_id BIGINT,
     booker_id BIGINT,
     status VARCHAR(8),
-    CONSTRAINT pk_booking PRIMARY KEY (id)
+    CONSTRAINT pk_booking PRIMARY KEY (id),
+    FOREIGN KEY (booker_id) REFERENCES users(id),
+    FOREIGN KEY (item_id) REFERENCES items(id)
 );
 
 CREATE TABLE IF NOT EXISTS requests (
@@ -31,7 +35,8 @@ CREATE TABLE IF NOT EXISTS requests (
     description TEXT,
     requestor_id BIGINT,
     created TIMESTAMP,
-    CONSTRAINT pk_request PRIMARY KEY (id)
+    CONSTRAINT pk_request PRIMARY KEY (id),
+    FOREIGN KEY (reuestor_id) REFERENCES users(id)
 );
 
 CREATE TABLE IF NOT EXISTS comments (
@@ -39,5 +44,7 @@ CREATE TABLE IF NOT EXISTS comments (
     text TEXT,
     item_id BIGINT,
     author_id BIGINT,
-    CONSTRAINT pk_comment PRIMARY KEY (id)
+    CONSTRAINT pk_comment PRIMARY KEY (id),
+    FOREIGN KEY (author_id) REFERENCES users(id),
+    FOREIGN KEY (item_id) REFERENCES items(id)
 );

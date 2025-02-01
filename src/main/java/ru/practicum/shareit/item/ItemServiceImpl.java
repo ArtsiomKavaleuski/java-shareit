@@ -16,10 +16,11 @@ import java.util.List;
 public class ItemServiceImpl implements ItemService {
     private final ItemRepository itemRepository;
     private final UserService userService;
+    //private final ItemRequestService itemRequestService;
 
     @Override
     public List<Item> getItemsByOwner(long ownerId) {
-        return itemRepository.findByOwner_Id(ownerId);
+        return itemRepository.findByOwnerId(ownerId);
     }
 
     @Override
@@ -29,12 +30,10 @@ public class ItemServiceImpl implements ItemService {
 
     @Override
     public Item addItem(long userId, ItemDto itemDto) {
-        //userService.getUser(userId);
         if (itemDto.getAvailable() == null) {
             throw new BadRequestException("field 'available' is empty");
         }
-        Item item = ItemMapper.toItem(itemDto);
-        item.setOwner(userService.getUser(userId));
+        Item item = ItemMapper.toItem(itemDto, userService.getUser(userId), null);
         return itemRepository.save(item);
     }
 

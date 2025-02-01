@@ -9,19 +9,17 @@ import ru.practicum.shareit.item.model.Item;
 import ru.practicum.shareit.request.ItemRequest;
 import ru.practicum.shareit.user.User;
 
+import java.io.Serializable;
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class ItemDto {
+public class ItemDto implements Serializable {
     private Long id;
-    @NotNull
-    @NotEmpty
     private String name;
-    @NotNull
-    @NotEmpty
     private String description;
     private Boolean available;
-    private User owner;
-    private ItemRequest itemRequest;
+    private Long ownerId;
+    private Long itemRequestId;
 
 }

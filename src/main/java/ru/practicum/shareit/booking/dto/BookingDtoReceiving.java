@@ -6,18 +6,13 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import ru.practicum.shareit.booking.BookingStatus;
-import ru.practicum.shareit.item.dto.ItemDto;
-import ru.practicum.shareit.user.dto.UserDto;
 
 import java.time.LocalDateTime;
 
-/**
- * TODO Sprint add-bookings.
- */
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class BookingDto {
+public class BookingDtoReceiving {
     Long id;
     @NotNull
     @FutureOrPresent
@@ -25,7 +20,7 @@ public class BookingDto {
     @NotNull
     @FutureOrPresent
     LocalDateTime end;
-    ItemDto item;
-    UserDto booker;
+    Long itemId;
+    Long bookerId;
     BookingStatus status;
 }
