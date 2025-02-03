@@ -94,15 +94,14 @@ public class ItemServiceImpl implements ItemService {
     @Override
     @Transactional
     public Comment addComment(CommentDtoRequest commentDtoRequest, Long userId, Long itemId) {
-        User user =  userService.getUser(userId);
+        User user = userService.getUser(userId);
         Item item = itemRepository.findById(itemId).orElseThrow(() -> new NotFoundException("Item not found"));
-        if(bookingRepository.findFinishedByUserAndItem(userId, itemId).isEmpty()) {
+        if (bookingRepository.findFinishedByUserAndItem(userId, itemId).isEmpty()) {
             throw new BadRequestException("You are not allowed to add comment");
         }
         Comment comment = CommentMapper.toComment(commentDtoRequest, user, item);
         comment.setAuthor(user);
         comment.setItem(item);
-        //comment.setCreated(LocalDateTime.now());
         return commentRepository.save(comment);
     }
 }

@@ -1,9 +1,7 @@
 package ru.practicum.shareit.item.mapper;
 
 import ru.practicum.shareit.booking.Booking;
-import ru.practicum.shareit.booking.dto.BookingDto;
 import ru.practicum.shareit.booking.mapper.BookingMapper;
-import ru.practicum.shareit.item.dto.CommentDto;
 import ru.practicum.shareit.item.dto.ItemDto;
 import ru.practicum.shareit.item.dto.ItemDtoComments;
 import ru.practicum.shareit.item.dto.ItemDtoOwner;
@@ -12,9 +10,7 @@ import ru.practicum.shareit.item.model.Item;
 import ru.practicum.shareit.request.ItemRequest;
 import ru.practicum.shareit.user.User;
 
-import java.time.LocalDateTime;
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class ItemMapper {
     public static ItemDto toItemDto(Item item) {
@@ -33,8 +29,8 @@ public class ItemMapper {
         item.setName(itemDto.getName());
         item.setDescription(itemDto.getDescription());
         item.setAvailable(itemDto.getAvailable());
-        if(user != null) item.setOwner(user);
-        if(itemRequest != null) item.setItemRequest(itemRequest);
+        if (user != null) item.setOwner(user);
+        if (itemRequest != null) item.setItemRequest(itemRequest);
         return item;
     }
 
@@ -63,7 +59,6 @@ public class ItemMapper {
                 comments.stream()
                         .map(CommentMapper::toDto)
                         .toList(),
-
                 lastBooking != null ? BookingMapper.toBookingDtoOwner(lastBooking) : null,
                 nextBooking != null ? BookingMapper.toBookingDtoOwner(nextBooking) : null,
                 item.getItemRequest() != null ? item.getItemRequest().getId() : null

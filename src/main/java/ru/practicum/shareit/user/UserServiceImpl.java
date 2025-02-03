@@ -36,12 +36,14 @@ public class UserServiceImpl implements UserService {
     @Override
     @Transactional
     public User updateUser(long id, User user) throws ConflictException {
-        if (userRepository.findAll().stream().filter(u -> u.getId() != id).map(User::getEmail).toList().contains(user.getEmail())) {
+        if (userRepository.findAll().stream()
+                .filter(u -> u.getId() != id).map(User::getEmail)
+                .toList().contains(user.getEmail())) {
             throw new ConflictException("E-mail уже используется");
         }
         User updatedUser = getUser(id);
-        if(user.getName() != null) updatedUser.setName(user.getName());
-        if(user.getEmail() != null) updatedUser.setEmail(user.getEmail());
+        if (user.getName() != null) updatedUser.setName(user.getName());
+        if (user.getEmail() != null) updatedUser.setEmail(user.getEmail());
         return userRepository.save(updatedUser);
     }
 

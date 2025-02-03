@@ -6,13 +6,13 @@ import lombok.Setter;
 import lombok.ToString;
 import ru.practicum.shareit.user.User;
 
-import java.sql.Timestamp;
-import java.time.Instant;
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name="comments")
-@Getter @Setter @ToString
+@Table(name = "comments")
+@Getter
+@Setter
+@ToString
 public class Comment {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -27,7 +27,7 @@ public class Comment {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "item_id")
-    Item  item;
+    Item item;
 
     @Column(nullable = false)
     LocalDateTime created = LocalDateTime.now();

@@ -1,14 +1,12 @@
 package ru.practicum.shareit.request;
 
 import jakarta.persistence.*;
-import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 import ru.practicum.shareit.user.User;
 
 import java.time.Instant;
-import java.time.LocalDateTime;
 
 /**
  * TODO Sprint add-item-requests.

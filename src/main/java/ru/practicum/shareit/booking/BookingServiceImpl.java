@@ -8,7 +8,6 @@ import ru.practicum.shareit.booking.mapper.BookingMapper;
 import ru.practicum.shareit.exception.BadRequestException;
 import ru.practicum.shareit.exception.NotFoundException;
 import ru.practicum.shareit.item.ItemRepository;
-import ru.practicum.shareit.item.ItemService;
 import ru.practicum.shareit.item.model.Item;
 import ru.practicum.shareit.user.UserService;
 
@@ -26,7 +25,8 @@ public class BookingServiceImpl implements BookingService {
     @Transactional
     public Booking addBooking(Long userId, BookingDtoRequest bookingDtoRequest) {
         userService.getUser(userId);
-        Item item = itemRepository.findById(bookingDtoRequest.getItemId()).orElseThrow(() -> new NotFoundException("Item not found"));
+        Item item = itemRepository.findById(bookingDtoRequest.getItemId())
+                .orElseThrow(() -> new NotFoundException("Item not found"));
         if (bookingDtoRequest.getStart().equals(bookingDtoRequest.getEnd())) {
             throw new BadRequestException("Start and end should not be equal");
         }
@@ -44,7 +44,8 @@ public class BookingServiceImpl implements BookingService {
     @Override
     @Transactional
     public Booking approveBooking(Long userId, Long bookingId, String isApproved) {
-        Booking booking = bookingRepository.findById(bookingId).orElseThrow(() -> new NotFoundException("Booking not found"));
+        Booking booking = bookingRepository.findById(bookingId)
+                .orElseThrow(() -> new NotFoundException("Booking not found"));
         if (booking.getItem().getOwner().getId() != userId) {
             throw new BadRequestException("Booking can only be approved by owner");
         }
@@ -61,7 +62,8 @@ public class BookingServiceImpl implements BookingService {
     @Override
     public Booking getBooking(Long userId, Long bookingId) {
         userService.getUser(userId);
-        Booking booking = bookingRepository.findById(bookingId).orElseThrow(()  -> new NotFoundException("Booking not found"));
+        Booking booking = bookingRepository.findById(bookingId)
+                .orElseThrow(() -> new NotFoundException("Booking not found"));
         if (booking.getItem().getOwner().getId() != userId && booking.getBooker().getId() != userId) {
             throw new BadRequestException("Data is available only for owner or booker");
         }
