@@ -27,6 +27,12 @@ public class BookingServiceImpl implements BookingService {
         userService.getUser(userId);
         Item item = itemRepository.findById(bookingDtoRequest.getItemId())
                 .orElseThrow(() -> new NotFoundException("Item not found"));
+        if (item.getOwner().getId() == userId) {
+            throw new BadRequestException("Owner can't make booking of his own item");
+        }
+        if (bookingDtoRequest.getEnd().isBefore(bookingDtoRequest.getStart())) {
+            throw new BadRequestException("End time must be after start time");
+        }
         if (bookingDtoRequest.getStart().equals(bookingDtoRequest.getEnd())) {
             throw new BadRequestException("Start and end should not be equal");
         }
