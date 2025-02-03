@@ -2,7 +2,8 @@ package ru.practicum.shareit.booking.mapper;
 
 import ru.practicum.shareit.booking.Booking;
 import ru.practicum.shareit.booking.dto.BookingDto;
-import ru.practicum.shareit.booking.dto.BookingDtoReceiving;
+import ru.practicum.shareit.booking.dto.BookingDtoOwner;
+import ru.practicum.shareit.booking.dto.BookingDtoRequest;
 import ru.practicum.shareit.item.mapper.ItemMapper;
 import ru.practicum.shareit.item.model.Item;
 import ru.practicum.shareit.user.User;
@@ -22,33 +23,29 @@ public class BookingMapper {
                 booking.getStatus());
     }
 
-    public static Booking toBooking(BookingDto bookingDto, Item item, User booker) {
+    public static Booking toBooking(BookingDtoRequest bookingDtoRequest, Item item, User booker) {
         Booking booking = new Booking();
-        if (bookingDto.getId() != null) {
-            booking.setId(bookingDto.getId());
+        if (bookingDtoRequest.getId() != null) {
+            booking.setId(bookingDtoRequest.getId());
         }
         booking.setBooker(booker);
         booking.setItem(item);
-        booking.setStart(bookingDto.getStart());
-        booking.setEnd(bookingDto.getEnd());
-        booking.setStatus(bookingDto.getStatus());
-        return booking;
-    }
-
-    public static Booking toBooking(BookingDtoReceiving bookingDtoReceiving, Item item, User booker) {
-        Booking booking = new Booking();
-        if (bookingDtoReceiving.getId() != null) {
-            booking.setId(bookingDtoReceiving.getId());
-        }
-        booking.setBooker(booker);
-        booking.setItem(item);
-        booking.setStart(bookingDtoReceiving.getStart());
-        booking.setEnd(bookingDtoReceiving.getEnd());
-        booking.setStatus(bookingDtoReceiving.getStatus());
+        booking.setStart(bookingDtoRequest.getStart());
+        booking.setEnd(bookingDtoRequest.getEnd());
+        booking.setStatus(bookingDtoRequest.getStatus());
         return booking;
     }
 
     public static List<BookingDto> toBookingDtoList(List<Booking> bookings) {
         return bookings.stream().map(BookingMapper::toBookingDto).collect(Collectors.toList());
+    }
+
+    public static BookingDtoOwner toBookingDtoOwner(Booking booking) {
+        return new BookingDtoOwner(
+                booking.getId(),
+                booking.getStart(),
+                booking.getEnd(),
+                UserMapper.toUserDto(booking.getBooker()),
+                booking.getStatus());
     }
 }

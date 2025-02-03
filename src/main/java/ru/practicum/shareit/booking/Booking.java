@@ -11,6 +11,9 @@ import lombok.ToString;
 import ru.practicum.shareit.item.model.Item;
 import ru.practicum.shareit.user.User;
 
+import java.io.Serializable;
+import java.sql.Timestamp;
+import java.time.Instant;
 import java.time.LocalDateTime;
 
 /**
@@ -25,13 +28,9 @@ public class Booking {
     private long id;
 
     @Column(name = "start_date")
-    @NotNull
-    @FutureOrPresent
     private LocalDateTime start;
 
     @Column(name = "end_date")
-    @NotNull
-    @FutureOrPresent
     private LocalDateTime end;
 
     @ManyToOne(fetch = FetchType.LAZY)

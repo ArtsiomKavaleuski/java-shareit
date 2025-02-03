@@ -3,17 +3,22 @@ package ru.practicum.shareit.item.dto;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import ru.practicum.shareit.booking.dto.BookingDtoOwner;
 
 import java.io.Serializable;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class ItemDto implements Serializable {
+public class ItemDtoComments {
     private Long id;
     private String name;
     private String description;
     private Boolean available;
+    private List<CommentDto> comments;
+    private BookingDtoOwner lastBooking;
+    private BookingDtoOwner nextBooking;
     private Long itemRequestId;
 }
