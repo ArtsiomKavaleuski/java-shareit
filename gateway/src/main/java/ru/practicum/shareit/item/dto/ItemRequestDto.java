@@ -14,11 +14,11 @@ import org.springframework.validation.annotation.Validated;
 @NoArgsConstructor
 @AllArgsConstructor
 public class ItemRequestDto {
-    @NotBlank
+    @NotBlank(message = "Name should not be empty")
     private String name;
-    @NotBlank
+    @NotBlank(message = "Description should not be empty")
     private String description;
-    @NotNull
+    @NotNull(message = "Available should not be empty")
     private Boolean available;
     private Long requestId;
 }

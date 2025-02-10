@@ -7,7 +7,7 @@ import org.springframework.transaction.annotation.Transactional;
 import ru.practicum.shareit.exception.NotFoundException;
 import ru.practicum.shareit.request.dto.ItemRequestDto;
 import ru.practicum.shareit.user.UserRepository;
-import ru.practicum.shareit.user.User;
+import ru.practicum.shareit.user.model.User;
 
 import java.time.LocalDateTime;
 import java.util.Collection;
@@ -24,7 +24,7 @@ public class ItemRequestServiceImpl implements ItemRequestService {
     @Transactional
     public ItemRequestDto addItemRequest(Long userId, ItemRequestDto itemRequestDto) {
         User user = userRepository.findById(userId).orElseThrow(() ->
-                new NotFoundException("Пользователь с таким Id " + userId + " не найден"));
+                new NotFoundException("User not found"));
         itemRequestDto.setCreated(LocalDateTime.now());
 
         return ItemRequestMapper.toItemRequestDto(
@@ -32,10 +32,10 @@ public class ItemRequestServiceImpl implements ItemRequestService {
     }
 
     @Override
-    public Collection<ItemRequestDto> getAllItemRequestByOwner(Long userId) {
+    public Collection<ItemRequestDto> getAllItemRequestsByOwner(Long userId) {
         userRepository.findById(userId).orElseThrow(() ->
-                new NotFoundException("Пользователь с таким Id " + userId + " не найден"));
-        return itemRequestRepository.findAllByRequestorId(userId).stream()
+                new NotFoundException("User not found"));
+        return itemRequestRepository.findAllByRequesterId(userId).stream()
                 .map(ItemRequestMapper::toItemRequestDto)
                 .collect(Collectors.toList());
     }
@@ -52,6 +52,6 @@ public class ItemRequestServiceImpl implements ItemRequestService {
     public ItemRequestDto getItemRequestById(Long requestId) {
         return ItemRequestMapper.toItemRequestDto(
                 itemRequestRepository.findByIdOrderByCreatedAsc(requestId).orElseThrow(() ->
-                        new NotFoundException("Запроса нет от пользователя с ID  " + requestId)));
+                        new NotFoundException("Item request not found")));
     }
 }

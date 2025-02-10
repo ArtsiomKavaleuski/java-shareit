@@ -3,14 +3,11 @@ package ru.practicum.shareit.request.model;
 import jakarta.persistence.*;
 import lombok.*;
 import ru.practicum.shareit.item.model.Item;
-import ru.practicum.shareit.user.User;
+import ru.practicum.shareit.user.model.User;
 
 import java.time.LocalDateTime;
 import java.util.Collection;
 
-/**
- * TODO Sprint add-item-requests.
- */
 @Entity
 @Table(name = "requests", schema = "public")
 @Getter
@@ -27,12 +24,12 @@ public class ItemRequest {
     @Column(nullable = false)
     private String description;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "requestor_id")
-    private User requestor;
+    @ManyToOne
+    @JoinColumn(name = "requester_id", referencedColumnName = "id")
+    private User requester;
 
     @Column
-    private LocalDateTime created = LocalDateTime.now();
+    private LocalDateTime created;
 
     @OneToMany
     @JoinColumn(name = "request_id", referencedColumnName = "id")

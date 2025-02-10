@@ -9,7 +9,7 @@ public interface ItemRequestService {
 
     ItemRequestDto addItemRequest(Long userId, ItemRequestDto itemRequestDto);
 
-    Collection<ItemRequestDto> getAllItemRequestByOwner(Long userId);
+    Collection<ItemRequestDto> getAllItemRequestsByOwner(Long userId);
 
     Collection<ItemRequestDto> getAllItemRequestToOtherUser(Pageable pageable);
 

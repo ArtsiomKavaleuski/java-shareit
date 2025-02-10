@@ -1,10 +1,9 @@
 package ru.practicum.shareit.item.model;
 
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
-import ru.practicum.shareit.user.User;
+import lombok.*;
+import org.springframework.validation.annotation.Validated;
+import ru.practicum.shareit.user.model.User;
 
 import java.time.LocalDateTime;
 
@@ -13,6 +12,10 @@ import java.time.LocalDateTime;
 @Getter
 @Setter
 @ToString
+@Validated
+@Builder(toBuilder = true)
+@AllArgsConstructor
+@NoArgsConstructor
 public class Comment {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

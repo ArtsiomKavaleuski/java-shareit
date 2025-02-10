@@ -1,22 +1,20 @@
 package ru.practicum.shareit.booking.dto;
 
-import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
-import lombok.NoArgsConstructor;
-import ru.practicum.shareit.booking.BookingStatus;
-import ru.practicum.shareit.item.dto.ItemDtoRequest;
-import ru.practicum.shareit.user.dto.UserDto;
+import ru.practicum.shareit.booking.model.BookingStatus;
+import ru.practicum.shareit.item.dto.ItemNameDto;
+import ru.practicum.shareit.user.dto.UserNameDto;
 
 import java.time.LocalDateTime;
 
 @Data
-@AllArgsConstructor
-@NoArgsConstructor
+@Builder(toBuilder = true)
 public class BookingDto {
-    Long id;
-    LocalDateTime start;
-    LocalDateTime end;
-    ItemDtoRequest item;
-    UserDto booker;
-    BookingStatus status;
+    private Long id;
+    private LocalDateTime start;
+    private LocalDateTime end;
+    private BookingStatus bookingStatus;
+    private ItemNameDto item;
+    private UserNameDto booker;
 }
