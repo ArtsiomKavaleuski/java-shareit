@@ -55,9 +55,9 @@ public class BookingServiceImpl implements BookingService {
             throw new BadRequestException("Only owner can approve booking");
         }
         if (approved) {
-            booking.setBookingStatus(BookingStatus.APPROVED);
+            booking.setStatus(BookingStatus.APPROVED);
         } else {
-            booking.setBookingStatus(BookingStatus.REJECTED);
+            booking.setStatus(BookingStatus.REJECTED);
         }
         return BookingMapper.toBookingRequestDto(bookingRepository.save(booking));
     }

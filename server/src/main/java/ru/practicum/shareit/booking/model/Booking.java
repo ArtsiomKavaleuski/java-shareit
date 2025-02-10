@@ -36,5 +36,5 @@ public class Booking {
 
     @JoinColumn(name = "status", nullable = false)
     @Enumerated(EnumType.STRING)
-    private BookingStatus bookingStatus;
+    private BookingStatus status;
 }
