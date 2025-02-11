@@ -105,6 +105,14 @@ class UserServiceImplTest {
     }
 
     @Test
+    void updateUserAlreadyExists() {
+        userService.addUser(userDto);
+        when(userRepository.findByEmail(anyString())).thenReturn(Optional.of(user));
+        Assertions.assertThrows(ConflictException.class, () -> userService.updateUser(userDto.getId(), user));
+        verify(userRepository, times(1)).save(any());
+    }
+
+    @Test
     void getUser() {
         User result = userService.getUser(user.getId());
         Assertions.assertNotNull(result);

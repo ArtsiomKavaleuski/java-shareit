@@ -279,6 +279,44 @@ class BookingServiceImplTest {
     }
 
     @Test
+    void getBookingListByBookerCurrentState() {
+        when(userRepository.findById(owner.getId())).thenReturn(Optional.of(owner));
+
+        LocalDateTime now = LocalDateTime.now().withNano(0);
+        when(bookingRepository.findAllByItemOwnerIdAndStartIsBeforeAndEndIsAfterOrderByStartDesc(owner.getId(), now, now)).thenReturn(Collections.singletonList(booking));
+
+        Collection<BookingDto> result = bookingService.getBookingListByBooker(owner.getId(), "CURRENT");
+
+        assertEquals(0, result.size());
+    }
+
+    @Test
+    void getBookingListByBookerFutureState() {
+        when(userRepository.findById(owner.getId())).thenReturn(Optional.of(owner));
+
+        LocalDateTime now = LocalDateTime.now().withNano(0);
+        when(bookingRepository.findAllByItemOwnerIdAndStartIsAfterOrderByStartDesc(owner.getId(), now)).thenReturn(Collections.singletonList(booking));
+
+        Collection<BookingDto> result = bookingService.getBookingListByBooker(owner.getId(), "FUTURE");
+
+        assertEquals(0, result.size());
+    }
+
+    @Test
+    void getBookingListByBookerPastState() {
+        when(userRepository.findById(owner.getId())).thenReturn(Optional.of(owner));
+
+        LocalDateTime now = LocalDateTime.now().withNano(0);
+        when(bookingRepository.findAllByItemOwnerIdAndEndIsBeforeOrderByStartDesc(owner.getId(), now)).thenReturn(Collections.singletonList(booking));
+
+        Collection<BookingDto> result = bookingService.getBookingListByBooker(owner.getId(), "PAST");
+
+        assertEquals(0, result.size());
+    }
+
+
+
+    @Test
     void getBookingListByBookerInvalidState() {
         when(userRepository.findById(user.getId())).thenReturn(Optional.of(user));
 
@@ -336,6 +374,42 @@ class BookingServiceImplTest {
         BadRequestException exception = assertThrows(BadRequestException.class, () -> bookingService.getBookingListByOwner(owner.getId(), "INVALID"));
 
         assertEquals("State is not valid", exception.getMessage());
+    }
+
+    @Test
+    void getBookingListByOwnerCurrentState() {
+        when(userRepository.findById(owner.getId())).thenReturn(Optional.of(owner));
+
+        LocalDateTime now = LocalDateTime.now().withNano(0);
+        when(bookingRepository.findAllByItemOwnerIdAndStartIsBeforeAndEndIsAfterOrderByStartDesc(owner.getId(), now, now)).thenReturn(Collections.singletonList(booking));
+
+        Collection<BookingDto> result = bookingService.getBookingListByOwner(owner.getId(), "CURRENT");
+
+        assertEquals(0, result.size());
+    }
+
+    @Test
+    void getBookingListByOwnerFutureState() {
+        when(userRepository.findById(owner.getId())).thenReturn(Optional.of(owner));
+
+        LocalDateTime now = LocalDateTime.now().withNano(0);
+        when(bookingRepository.findAllByItemOwnerIdAndStartIsAfterOrderByStartDesc(owner.getId(), now)).thenReturn(Collections.singletonList(booking));
+
+        Collection<BookingDto> result = bookingService.getBookingListByOwner(owner.getId(), "FUTURE");
+
+        assertEquals(0, result.size());
+    }
+
+    @Test
+    void getBookingListByOwnerPastState() {
+        when(userRepository.findById(owner.getId())).thenReturn(Optional.of(owner));
+
+        LocalDateTime now = LocalDateTime.now().withNano(0);
+        when(bookingRepository.findAllByItemOwnerIdAndEndIsBeforeOrderByStartDesc(owner.getId(), now)).thenReturn(Collections.singletonList(booking));
+
+        Collection<BookingDto> result = bookingService.getBookingListByOwner(owner.getId(), "PAST");
+
+        assertEquals(0, result.size());
     }
 
     @Test

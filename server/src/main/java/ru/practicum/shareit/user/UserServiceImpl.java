@@ -42,9 +42,7 @@ public class UserServiceImpl implements UserService {
     @Transactional
     public User updateUser(Long id, User user) {
         User updatedUser = getUser(id);
-        if (userRepository.findAll().stream()
-                .filter(u -> !Objects.equals(u.getId(), id)).map(User::getEmail)
-                .toList().contains(user.getEmail())) {
+        if (userRepository.findByEmail(user.getEmail()).isPresent()) {
             throw new ConflictException("E-mail уже используется");
         }
         if (user.getName() != null) updatedUser.setName(user.getName());
