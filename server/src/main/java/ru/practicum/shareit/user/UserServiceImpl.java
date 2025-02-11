@@ -10,7 +10,6 @@ import ru.practicum.shareit.user.dto.UserDto;
 import ru.practicum.shareit.user.model.User;
 
 import java.util.Collection;
-import java.util.Objects;
 
 @Service
 @Slf4j
