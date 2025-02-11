@@ -35,13 +35,15 @@ public class BookingController {
 
     @GetMapping
     public Collection<BookingDto> getBookingListByBooker(@RequestHeader("X-Sharer-User-Id") Long userId,
-                                                         @RequestParam(name = "state", required = false, defaultValue = "ALL") String state) {
+                                                         @RequestParam(name = "state", required = false,
+                                                                 defaultValue = "ALL") String state) {
         return bookingService.getBookingListByBooker(userId, state);
     }
 
     @GetMapping("/owner")
     public Collection<BookingDto> getBookingListByOwner(@RequestHeader("X-Sharer-User-Id") Long userId,
-                                                        @RequestParam(name = "state", required = false, defaultValue = "ALL") String state) {
+                                                        @RequestParam(name = "state", required = false,
+                                                                defaultValue = "ALL") String state) {
         return bookingService.getBookingListByOwner(userId, state);
     }
 

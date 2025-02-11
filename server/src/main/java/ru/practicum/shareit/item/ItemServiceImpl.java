@@ -51,17 +51,17 @@ public class ItemServiceImpl implements ItemService {
         return ItemMapper.toItemDto(item,
                 BookingMapper.toBookingItemDto(
                         bookingRepository.findFirstByItemIdAndItemOwnerIdAndStartBeforeAndStatusOrderByStartDesc(
-                                itemId,
-                                userId,
-                                LocalDateTime.now(),
-                                BookingStatus.APPROVED)
+                                        itemId,
+                                        userId,
+                                        LocalDateTime.now(),
+                                        BookingStatus.APPROVED)
                                 .orElse(null)),
                 BookingMapper.toBookingItemDto(
                         bookingRepository.findFirstByItemIdAndItemOwnerIdAndStartAfterAndStatusOrderByStartAsc(
-                                itemId,
-                                userId,
-                                LocalDateTime.now(),
-                                BookingStatus.APPROVED)
+                                        itemId,
+                                        userId,
+                                        LocalDateTime.now(),
+                                        BookingStatus.APPROVED)
                                 .orElse(null)));
     }
 

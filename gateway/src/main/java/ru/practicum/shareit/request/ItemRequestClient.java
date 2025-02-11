@@ -18,11 +18,10 @@ public class ItemRequestClient extends BaseClient {
 
     @Autowired
     public ItemRequestClient(@Value("${shareit-server.url}") String serverUrl, RestTemplateBuilder builder) {
-        super(
-                builder
-                        .uriTemplateHandler(new DefaultUriBuilderFactory(serverUrl + API_PREFIX))
-                        .requestFactory(() -> new HttpComponentsClientHttpRequestFactory())
-                        .build()
+        super(builder
+                .uriTemplateHandler(new DefaultUriBuilderFactory(serverUrl + API_PREFIX))
+                .requestFactory(() -> new HttpComponentsClientHttpRequestFactory())
+                .build()
         );
     }
 

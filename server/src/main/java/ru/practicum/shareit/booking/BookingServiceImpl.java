@@ -40,7 +40,7 @@ public class BookingServiceImpl implements BookingService {
         if (!item.getAvailable()) {
             throw new BadRequestException("Item is not available");
         }
-        Booking booking = BookingMapper.toBooking(bookingRequestDto,user,item);
+        Booking booking = BookingMapper.toBooking(bookingRequestDto, user, item);
         return BookingMapper.toBookingRequestDto(bookingRepository.save(booking));
     }
 
@@ -84,11 +84,14 @@ public class BookingServiceImpl implements BookingService {
         }
         Collection<Booking> bookings = switch (bookingState) {
             case ALL -> bookingRepository.findAllByBookerIdOrderByStartDesc(userId);
-            case CURRENT -> bookingRepository.findAllByBookerIdAndStartIsBeforeAndEndIsAfterOrderByStartDesc(userId, LocalDateTime.now(), LocalDateTime.now());
-            case FUTURE -> bookingRepository.findAllByBookerIdAndStartIsAfterOrderByStartDesc(userId, LocalDateTime.now());
+            case CURRENT ->
+                    bookingRepository.findAllByBookerIdAndStartIsBeforeAndEndIsAfterOrderByStartDesc(userId, LocalDateTime.now(), LocalDateTime.now());
+            case FUTURE ->
+                    bookingRepository.findAllByBookerIdAndStartIsAfterOrderByStartDesc(userId, LocalDateTime.now());
             case PAST -> bookingRepository.findAllByBookerIdAndEndIsBeforeOrderByStartDesc(userId, LocalDateTime.now());
             case WAITING -> bookingRepository.findAllByBookerIdAndStatusOrderByStartDesc(userId, BookingStatus.WAITING);
-            case REJECTED -> bookingRepository.findAllByBookerIdAndStatusOrderByStartDesc(userId, BookingStatus.REJECTED);
+            case REJECTED ->
+                    bookingRepository.findAllByBookerIdAndStatusOrderByStartDesc(userId, BookingStatus.REJECTED);
         };
         return BookingMapper.toListBookingRequestDto(bookings);
     }
@@ -105,11 +108,16 @@ public class BookingServiceImpl implements BookingService {
         }
         Collection<Booking> bookings = switch (bookingState) {
             case ALL -> bookingRepository.findAllByItemOwnerIdOrderByStartDesc(userId);
-            case CURRENT -> bookingRepository.findAllByItemOwnerIdAndStartIsBeforeAndEndIsAfterOrderByStartDesc(userId, LocalDateTime.now(), LocalDateTime.now());
-            case FUTURE -> bookingRepository.findAllByItemOwnerIdAndStartIsAfterOrderByStartDesc(userId, LocalDateTime.now());
-            case PAST -> bookingRepository.findAllByItemOwnerIdAndEndIsBeforeOrderByStartDesc(userId, LocalDateTime.now());
-            case WAITING -> bookingRepository.findAllByItemOwnerIdAndStatusOrderByStartDesc(userId, BookingStatus.WAITING);
-            case REJECTED -> bookingRepository.findAllByItemOwnerIdAndStatusOrderByStartDesc(userId, BookingStatus.REJECTED);
+            case CURRENT ->
+                    bookingRepository.findAllByItemOwnerIdAndStartIsBeforeAndEndIsAfterOrderByStartDesc(userId, LocalDateTime.now(), LocalDateTime.now());
+            case FUTURE ->
+                    bookingRepository.findAllByItemOwnerIdAndStartIsAfterOrderByStartDesc(userId, LocalDateTime.now());
+            case PAST ->
+                    bookingRepository.findAllByItemOwnerIdAndEndIsBeforeOrderByStartDesc(userId, LocalDateTime.now());
+            case WAITING ->
+                    bookingRepository.findAllByItemOwnerIdAndStatusOrderByStartDesc(userId, BookingStatus.WAITING);
+            case REJECTED ->
+                    bookingRepository.findAllByItemOwnerIdAndStatusOrderByStartDesc(userId, BookingStatus.REJECTED);
         };
         return BookingMapper.toListBookingRequestDto(bookings);
     }

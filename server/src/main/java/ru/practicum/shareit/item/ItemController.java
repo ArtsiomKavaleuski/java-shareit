@@ -8,7 +8,6 @@ import ru.practicum.shareit.item.model.Item;
 
 import java.util.Collection;
 
-
 @RestController
 @RequiredArgsConstructor
 @RequestMapping(path = "/items")
@@ -16,8 +15,9 @@ public class ItemController {
     private final ItemService itemService;
 
     @PostMapping
-    public ItemDto addItem(@RequestHeader("X-Sharer-User-Id") Long userId, @RequestBody ItemDto itemDto) {
-        return itemService.addItem(userId,itemDto);
+    public ItemDto addItem(@RequestHeader("X-Sharer-User-Id") Long userId,
+                           @RequestBody ItemDto itemDto) {
+        return itemService.addItem(userId, itemDto);
     }
 
     @PostMapping("/{itemId}/comment")
@@ -28,12 +28,15 @@ public class ItemController {
     }
 
     @PatchMapping("/{itemId}")
-    public Item updateItem(@RequestHeader("X-Sharer-User-Id") Long userId, @PathVariable Long itemId, @RequestBody Item item) {
+    public Item updateItem(@RequestHeader("X-Sharer-User-Id") Long userId,
+                           @PathVariable Long itemId,
+                           @RequestBody Item item) {
         return itemService.updateItem(userId, itemId, item);
     }
 
     @GetMapping("/{itemId}")
-    public ItemDto getItemById(@RequestHeader("X-Sharer-User-Id") Long userId, @PathVariable Long itemId) {
+    public ItemDto getItemById(@RequestHeader("X-Sharer-User-Id") Long userId,
+                               @PathVariable Long itemId) {
         return itemService.getItemById(userId, itemId);
     }
 

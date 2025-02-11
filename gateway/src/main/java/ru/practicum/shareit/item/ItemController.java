@@ -25,7 +25,6 @@ public class ItemController {
     @PostMapping
     public ResponseEntity<Object> add(@RequestHeader("X-Sharer-User-Id") Long ownerId,
                                       @Valid @RequestBody ItemRequestDto itemRequestDto) {
-
         return client.addItem(ownerId, itemRequestDto);
     }
 
