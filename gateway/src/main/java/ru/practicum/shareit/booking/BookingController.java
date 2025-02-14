@@ -42,7 +42,7 @@ public class BookingController {
     }
 
     @GetMapping("/owner")
-    public ResponseEntity<Object> getAllBookingsAllItemsByOwner(
+    public ResponseEntity<Object> getAllBookingsByOwner(
             @RequestHeader(HEADER) Long userId,
             @RequestParam(name = "state", defaultValue = "all") String stateParam) {
         BookingState state = BookingState.from(stateParam)
@@ -51,9 +51,9 @@ public class BookingController {
     }
 
     @PatchMapping("/{bookingId}")
-    public ResponseEntity<Object> approveOrRejectBooking(@RequestHeader(HEADER) long userId,
-                                                         @PathVariable Long bookingId,
-                                                         @RequestParam Boolean approved) {
-        return bookingClient.approveOrRejectBooking(userId, bookingId, approved);
+    public ResponseEntity<Object> approveBooking(@RequestHeader(HEADER) long userId,
+                                                 @PathVariable Long bookingId,
+                                                 @RequestParam Boolean approved) {
+        return bookingClient.approveBooking(userId, bookingId, approved);
     }
 }

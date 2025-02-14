@@ -6,7 +6,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.data.domain.*;
 import ru.practicum.shareit.request.ItemRequestMapper;
 import ru.practicum.shareit.request.ItemRequestRepository;
 import ru.practicum.shareit.request.ItemRequestService;
@@ -33,7 +32,6 @@ class ItemRequestServiceImplTest {
     private User user;
     private ItemRequest itemRequest;
     private ItemRequestDto itemRequestDto;
-    private Pageable pageable;
 
     @BeforeEach
     void setUp() {
@@ -61,11 +59,6 @@ class ItemRequestServiceImplTest {
         when(userRepository.findById(anyLong())).thenReturn(Optional.of(user));
         when(itemRequestRepository.save(any())).thenReturn(itemRequest);
         when(itemRequestRepository.findById(any())).thenReturn(Optional.of(itemRequest));
-        pageable = PageRequest.of(0, 10, Sort.by("created").descending());
-        final int start = (int) pageable.getOffset();
-        final int end = Math.min((start + pageable.getPageSize()), List.of(itemRequest).size());
-        final Page<ItemRequest> page = new PageImpl<>(List.of(itemRequest).subList(start, end), pageable, List.of(itemRequest).size());
-        when(itemRequestRepository.findAll((Pageable) any())).thenReturn(page);
         when(itemRequestRepository.findAllByRequesterIdOrderByCreatedDesc(anyLong())).thenReturn(List.of(itemRequest));
         when(itemRequestRepository.findAllByRequesterId(anyLong())).thenReturn(List.of(itemRequest));
         when(itemRequestRepository.findByIdOrderByCreatedAsc(anyLong())).thenReturn(Optional.of(itemRequest));
@@ -81,7 +74,7 @@ class ItemRequestServiceImplTest {
         Assertions.assertEquals(result.getFirst().getDescription(), itemRequestDto.getDescription());
         Assertions.assertEquals(result.getFirst().getRequester(), itemRequestDto.getRequester());
         Assertions.assertEquals(result.getFirst().getId(), itemRequestDto.getId());
-        verify(itemRequestRepository, times(1)).findAllByRequesterId(anyLong());
+        verify(itemRequestRepository, times(1)).findAllByRequesterIdOrderByCreatedDesc(user.getId());
     }
 
     @Test
@@ -105,13 +98,9 @@ class ItemRequestServiceImplTest {
     }
 
     @Test
-    void getAllItemRequestToOtherUser() {
-        List<ItemRequestDto> result = itemRequestService.getAllItemRequestToOtherUser(pageable).stream().toList();
-        Assertions.assertNotNull(result);
-        Assertions.assertEquals(result.getFirst().getCreated(), itemRequestDto.getCreated());
-        Assertions.assertEquals(result.getFirst().getDescription(), itemRequestDto.getDescription());
-        Assertions.assertEquals(result.getFirst().getRequester(), itemRequestDto.getRequester());
-        Assertions.assertEquals(result.getFirst().getId(), itemRequestDto.getId());
-        verify(itemRequestRepository, times(1)).findAll(pageable);
+    void getAllItemRequestsOfOtherUsers() {
+        List<ItemRequestDto> result = itemRequestService.getAllItemRequestsOfOtherUsers(user.getId()).stream().toList();
+        Assertions.assertTrue(result.isEmpty());
+        verify(itemRequestRepository, times(1)).findAllWithoutRequester(user.getId());
     }
 }

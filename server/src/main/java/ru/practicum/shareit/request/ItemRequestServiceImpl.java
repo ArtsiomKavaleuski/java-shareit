@@ -35,17 +35,16 @@ public class ItemRequestServiceImpl implements ItemRequestService {
     public Collection<ItemRequestDto> getAllItemRequestsByOwner(Long userId) {
         userRepository.findById(userId).orElseThrow(() ->
                 new NotFoundException("User not found"));
-        return itemRequestRepository.findAllByRequesterId(userId).stream()
+        return itemRequestRepository.findAllByRequesterIdOrderByCreatedDesc(userId).stream()
                 .map(ItemRequestMapper::toItemRequestDto)
                 .collect(Collectors.toList());
     }
 
     @Override
-    public Collection<ItemRequestDto> getAllItemRequestToOtherUser(Pageable pageable) {
-        return itemRequestRepository.findAll(pageable).stream()
+    public Collection<ItemRequestDto> getAllItemRequestsOfOtherUsers(Long userId) {
+        return itemRequestRepository.findAllWithoutRequester(userId).stream()
                 .map(ItemRequestMapper::toItemRequestDto)
                 .collect(Collectors.toList());
-
     }
 
     @Override

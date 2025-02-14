@@ -51,7 +51,6 @@ class ItemRequestControllerTest {
     private ObjectMapper mapper;
 
     private ItemRequestDto itemRequestDto;
-    private Pageable pageable;
 
     @BeforeEach
     void setUp() {
@@ -62,7 +61,6 @@ class ItemRequestControllerTest {
                 .created(LocalDateTime.now())
                 .items(List.of())
                 .build();
-        pageable = PageRequest.of(0, 10, Sort.by("created").descending());
     }
 
     @Test
@@ -114,7 +112,7 @@ class ItemRequestControllerTest {
 
     @Test
     void getAllItemRequestByOtherUsers() throws Exception {
-        when(itemRequestService.getAllItemRequestToOtherUser(pageable)).thenReturn(Collections.emptyList());
+        when(itemRequestService.getAllItemRequestsOfOtherUsers(anyLong())).thenReturn(Collections.emptyList());
 
         mvc.perform(get("/requests/all?from=0&size=10")
                         .header("X-Sharer-User-Id", 1L)
@@ -123,6 +121,6 @@ class ItemRequestControllerTest {
                         .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(content().json("[]"));
-        verify(itemRequestService, times(1)).getAllItemRequestToOtherUser(pageable);
+        verify(itemRequestService, times(1)).getAllItemRequestsOfOtherUsers(1L);
     }
 }

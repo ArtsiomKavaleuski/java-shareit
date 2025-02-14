@@ -1,9 +1,6 @@
 package ru.practicum.shareit.request;
 
-import org.springframework.data.domain.Pageable;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Sort;
 import org.springframework.web.bind.annotation.*;
 import ru.practicum.shareit.request.dto.ItemRequestDto;
 
@@ -29,11 +26,8 @@ public class ItemRequestController {
     }
 
     @GetMapping("/all")
-    public Collection<ItemRequestDto> getItemRequestsAllButOwner(@RequestHeader(HEADER) Long userId,
-                                                                 @RequestParam(defaultValue = "0") int from,
-                                                                 @RequestParam(defaultValue = "10") int size) {
-        Pageable pageable = PageRequest.of(from, size, Sort.by("created").descending());
-        return itemRequestService.getAllItemRequestToOtherUser(pageable);
+    public Collection<ItemRequestDto> getItemRequestsAllButOwner(@RequestHeader(HEADER) Long userId) {
+        return itemRequestService.getAllItemRequestsOfOtherUsers(userId);
     }
 
     @GetMapping("/{requestId}")
